@@ -13,8 +13,8 @@ export function AccountSwitcher({ isCollapsed }: AccountSwitcherProps) {
           "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
       )}
     >
-      <Avatar className="w-9 h-9 max-w-9 max-h-9">
-        <AvatarImage src="https://kantipurinfotech.com/wp-content/themes/kantipurinfotech/assets/images/profile.png" />
+      <Avatar className="w-9 h-9 max-w-9 max-h-9 rounded-sm">
+        <AvatarImage src="https://kantipurinfotech.com/wp-content/themes/kantipurinfotech/assets/images/profile.png"/>
         <AvatarFallback className="bg-transparent">Kit</AvatarFallback>
       </Avatar>
       <span className={cn("ml-2 w-full", isCollapsed && "!hidden")}>

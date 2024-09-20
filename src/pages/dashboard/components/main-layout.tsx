@@ -5,7 +5,8 @@ import {
   Search,
   ChartSpline ,
   Trash2,
-  Globe
+  Globe,
+  LayoutDashboard
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -140,6 +141,14 @@ export function MainLayout({
                   icon: Globe,
                   variant: pathname.endsWith("/domain") ? "default" : "ghost",
                   auth: ["superadmin"]
+                },
+                {
+                  title: "Site Management",
+                  label: "9",
+                  href: "site-management",
+                  icon: LayoutDashboard,
+                  variant: pathname.endsWith("/site-management") ? "default" : "ghost",
+                  auth: ["admin"]
                 },
                 {
                   title: "Users",

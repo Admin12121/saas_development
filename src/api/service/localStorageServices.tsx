@@ -1,8 +1,7 @@
 import  secureLocalStorage  from  "react-secure-storage";
 import { jwtVerify, JWTPayload } from 'jose';
 
-const ENCRYPTION_KEY = "17e5ca6c86dc465588851176d72eae6e293033d78ce984412505ab2420714afe";
-const jwtSecret = new TextEncoder().encode(ENCRYPTION_KEY);
+const jwtSecret = new TextEncoder().encode(`${import.meta.env.VITE_KEY_ENCRYPTION_KEY}`);
 
 interface Token {
   access: string;

@@ -17,6 +17,7 @@ import UserData from "@/pages/users/user";
 import AdminPanal from "@/pages/dashboard/admin-panal";
 import TwoFaOtp from "./pages/auth/twofa";
 import Availabledomains from "./pages/available-domains/availabledomains";
+import SiteManagement from "@/pages/site-management/site-management";
 
 function App() {
   const { access_token } = getToken();
@@ -35,6 +36,7 @@ function App() {
         <Route path="dashboard" element={ <Dashboard /> } >
           <Route index element={<AdminPanal/>} />
           <Route path="users" element={<UserData/>} />
+          <Route path="site-management" element={<SiteManagement/>} />
         </Route>
         <Route path="*" element={<Pagenotfound />} />
       </Routes>
