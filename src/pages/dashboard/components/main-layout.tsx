@@ -22,7 +22,6 @@ import { Kbd } from "@nextui-org/kbd";
 import { useLocation } from "react-router-dom";
 import { UserNav } from "@/components/admin/user";
 
-
 interface PanalProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
@@ -132,6 +131,7 @@ export function MainLayout({
                   href: "/dashboard",
                   icon: House,
                   variant: pathname.endsWith("/dashboard") ? "default" : "ghost",
+                  auth: ["admin", "superadmin", "member"]
                 },
                 {
                   title: "Domain",
@@ -139,7 +139,7 @@ export function MainLayout({
                   href: "domain",
                   icon: Globe,
                   variant: pathname.endsWith("/domain") ? "default" : "ghost",
-
+                  auth: ["superadmin"]
                 },
                 {
                   title: "Users",
@@ -147,6 +147,7 @@ export function MainLayout({
                   icon: UserRound,
                   href: "users",
                   variant: pathname.endsWith("/users") ? "default" : "ghost",
+                  auth: ["admin", "superadmin"]                  
                 },
                 {
                   title: "Analytics",
@@ -154,6 +155,7 @@ export function MainLayout({
                   icon: ChartSpline,
                   href: "analytics",
                   variant: pathname.endsWith("/analytics") ? "default" : "ghost",
+                  auth: ["admin", "superadmin"]                  
                 },
                 {
                   title: "Trash",
@@ -161,6 +163,7 @@ export function MainLayout({
                   icon: Trash2,
                   href: "trash",
                   variant: pathname.endsWith("/trash")? "default" : "ghost",
+                  auth: ["superadmin"]                  
                 },
               ]}
             />

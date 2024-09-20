@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type ErrorType = 'TOKEN_EXPIRED' | 'NO_INTERNET' | 'SERVER_ERROR' | 'UNKNOWN_ERROR';
+type ErrorType = 'TOKEN_EXPIRED' | 'NO_INTERNET' | 'SERVER_ERROR' | 'UNKNOWN_ERROR' | 'DOMAIN_ERROR';
 
 export const useErrorHandler = () => {
   const [error, setError] = useState<string | null>(null);
@@ -17,6 +17,9 @@ export const useErrorHandler = () => {
         break;
       case 'SERVER_ERROR':
         message = 'Server is not responding. Please try again later.';
+        break;
+      case 'DOMAIN_ERROR':
+        message = 'Domain mismatch.';
         break;
       default:
         message = 'An unknown error occurred.';

@@ -17,14 +17,43 @@ const Dashboard = () => {
   const { data, error, isLoading } = useGetLoggedUserQuery({ access_token });
   const subdomain = getSubdomain();
   const { error: errorMessage, handleError } = useErrorHandler();
-
   const userData = data;
+  
+  // useEffect(() => {
+  //   if (data) {
+  //     if (data.subdomain && data.subdomain == subdomain.subdomain) {
+  //       clearError();
+  //     }else{
+  //       handleError("DOMAIN_ERROR")
+  //     }
+  //   }
+  // }, [data, subdomain]);
 
   useEffect(() => {
-    if (data && data.subdomain && subdomain !== data.subdomain) {
-      window.location.href = `https://${data.subdomain}.${window.location.host}`;
+    if (data && data.subdomain) {
+      const hostParts = window.location.host.split('.');
+  
+      let mainDomain;
+      if (hostParts.length === 1) {
+        mainDomain = hostParts[0];
+      } else if (hostParts.length === 2) {
+        mainDomain = hostParts.join('.');
+      } else {
+        mainDomain = hostParts.slice(-2).join('.');
+      }
+      const mainDomainParts = mainDomain.split('.');
+      const NewDomain = mainDomainParts[mainDomainParts.length - 1]
+
+      if (subdomain.subdomain !== data.subdomain) {
+        const newSubdomain = `${data.subdomain}.${NewDomain}`;
+        if (window.location.host !== newSubdomain) {
+          const protocol = window.location.protocol;
+          window.location.href = `${protocol}//${newSubdomain}`;
+        }
+      }
     }
   }, [data, subdomain]);
+  
 
   useEffect(() => {
     if (error) {
