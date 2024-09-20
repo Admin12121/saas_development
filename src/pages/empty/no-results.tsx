@@ -1,4 +1,4 @@
-import { Empty } from "./Empty"
+import { Empty } from "./empty"
 
 export const NoResult = () => {
   return (

@@ -102,7 +102,7 @@ const TwoFaOtp = () => {
       const data = { "user_name": username, "otp": value }
       const response = await AuthUser({data});
       if (response.data) {
-        const token = {access: response.data.access, refresh: response.data.refresh}
+        const token = response.data.token
         storeToken(token);
         let { access_token } = getToken();
 

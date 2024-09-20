@@ -48,9 +48,9 @@ export function UserNav({ isCollapsed , data}: AccountSwitcherProps) {
               )}
             >
               <p className="text-sm font-medium text-muted-foreground leading-none">
-                {data.user_name}
+                {data?.user_name}
               </p>
-              <p className="text-xs text-zinc-600">{data.email}</p>
+              <p className="text-xs text-zinc-600">{data?.email}</p>
             </div>
           </div>
         </Button>
