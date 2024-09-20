@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+import {nextui} from '@nextui-org/theme';
+
 export default {
   darkMode: ["class"],
-  content: ["./src/**/*.{html,tsx,ts}"],
+  content: ["./src/**/*.{html,tsx,ts}","./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"],
 theme: {
 	extend: {
 		borderRadius: {
@@ -75,6 +77,6 @@ theme: {
 		}
 	}
 },
-plugins: [require("tailwindcss-animate")],
+plugins: [nextui(),require("tailwindcss-animate")],
 }
 

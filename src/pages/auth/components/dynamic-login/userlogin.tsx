@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { UserLoginForm } from "@/pages/auth/components/loginform";
 
 
-export default function UserLogin() {
+export default function UserLogin({organization}:{organization:string | null}) {
 
   return (
     <div className="h-screen w-screen">
@@ -34,9 +34,10 @@ export default function UserLogin() {
             >
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
-            Vicky
+            {organization ? organization : "Kantipur Infotech"}
           </div>
           <div className="relative z-20 mt-auto">
+
             <blockquote className="space-y-2">
               <p className="text-lg">
                 &ldquo;This library has saved me countless hours of work and
@@ -47,7 +48,7 @@ export default function UserLogin() {
             </blockquote>
           </div>
         </div>
-        <div className="lg:p-8">
+        <div className="lg:p-8 flex flex-col justify-center items-center h-screen">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:px-5">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">

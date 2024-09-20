@@ -54,9 +54,9 @@ export const userAuthapi = createApi({
       },
     }),
     loginUser: builder.mutation({
-      query: (user) => {
+      query: ({user}) => {
         return {
-          url: "accounts/login/",
+          url: "api/account/login/",
           method: "POST",
           body: user,
           headers: {
@@ -101,23 +101,23 @@ export const userAuthapi = createApi({
         };
       },
     }),
-    getLoggedUser: builder.query({
-      query: () => {
-        const {access_token} = getToken();
+    checkLoginUser: builder.mutation({
+      query: (user) => {
         return {
-          url: "accounts/profile/",
-          method: "GET",
+          url: "api/account/check-login-user/",
+          method: "POST",
+          body: user,
           headers: {
-            authorization: `Bearer ${access_token}`,
+            "Content-type": "application/json",
           },
         };
       },
     }),
-    getUserProfile: builder.query({
-      query: ({  username }) => {
-        const  { access_token }  = getToken();
+    getLoggedUser: builder.query({
+      query: () => {
+        const {access_token} = getToken();
         return {
-          url: `accounts/users/?name=${username}`,
+          url: "api/account/user/profile/",
           method: "GET",
           headers: {
             authorization: `Bearer ${access_token}`,
@@ -139,14 +139,13 @@ export const userAuthapi = createApi({
       },
     }),
     twoFa: builder.mutation({
-      query: ({ actualData }) => {
-        const  { access_token }  = getToken();
+      query: ({ data }) => {
         return {
-          url: "accounts/two-fa/",
+          url: "api/account/login/verify-otp/",
           method: "POST",
-          body: actualData,
+          body: data,
           headers: {
-            authorization: `Bearer ${access_token}`,
+            "Content-type": "application/json",
           },
         };
       },
@@ -212,6 +211,17 @@ export const userAuthapi = createApi({
         };
       },
     }),
+    userData: builder.query({
+      query: ({page,page_size}) => {
+        return {
+          url: `/api/account/user-domain-info/?page=${page}&page_size=${page_size}`,
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -224,13 +234,14 @@ export const {
   useActiveUserMutation,
   useResendOtpMutation,
   useCheckActiveUserMutation,
+  useCheckLoginUserMutation,
   useGetLoggedUserQuery,
-  useGetUserProfileQuery,
   useUpdateUserProfileMutation,
   useTwoFaMutation,
   useChangeUserPasswordMutation,
   useSendPasswordResetEmailMutation,
   useResetPasswordMutation,
   useRegistrationMutation,
-  useRefreshAccessTokenMutation
+  useRefreshAccessTokenMutation,
+  useUserDataQuery,
 } = userAuthapi;

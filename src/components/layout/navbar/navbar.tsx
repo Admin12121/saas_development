@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 import { ModeToggle } from "../toogle-mode";
 import { Button } from "@/components/ui/button";
 import { getSubdomain } from "@/lib/subdomain";
+import { Skeleton } from "@/components/ui/skeleton"
 
-const Navbar = ({ position = false }: { position?: boolean }) => {
+const Navbar = ({ isLoading, position = false, organization, showHome, login }: { isLoading: boolean, position?: boolean, organization: string | null, showHome?: string | null, login?: boolean }) => {
   const { subdomain  } = getSubdomain(); 
   const handleMouseMove = (e: any) => {
+
+
     for (const card of document.getElementsByClassName("nav")) {
       const rect = card.getBoundingClientRect(),
         x = e.clientX - rect.left,
@@ -17,8 +20,10 @@ const Navbar = ({ position = false }: { position?: boolean }) => {
       (card as HTMLElement).style.setProperty("--mouse-y", `${y}px`);
     }
   };
+  console.log(showHome)
   return (
     <>
+
       <motion.div
         initial={{ y: -100, scale: 0.9 }}
         animate={{ y: 10, scale: 1 }}
@@ -28,18 +33,29 @@ const Navbar = ({ position = false }: { position?: boolean }) => {
       >
         <div className="nav" onMouseMove={handleMouseMove}>
           <div className="nav_wrap flex justify-between items-center">
-            <div className="logo">
-              <Link to="/">
-                <span>
-                  <img src="/logo.svg" className="invert p-2" alt="logo" /> 
-                </span>
-              </Link>
-            </div>
+            <span className="flex gap-2 items-center justify-center cursor-pointer">
+            <Skeleton className="h-11 w-11 rounded-md" disable={!isLoading}>
+              <div className="logo">
+                <Link to="/">
+                  <span>
+                    <img src="/images/logo.png" className="p-2" alt="logo" /> 
+                  </span>
+                </Link>
+              </div>
+            </Skeleton>
+            <Skeleton className="h-11 w-48 rounded-md" disable={!isLoading}>
+              <h1 className="text-2xl font-semibold">{organization ? organization : "Kantipur Portal"}</h1>
+            </Skeleton>
+            </span>
             <span className="flex gap-2 items-center justify-center">
               <ModeToggle />
-              <Button asChild>
-                {subdomain ? <Link to="/login">Login</Link> : <Link to="/register">Sign Up</Link>}
-              </Button>
+             {login && <Skeleton className="h-11 w-24 rounded-md" disable={!isLoading}>
+                <Button asChild className="h-11 px-5 rounded-[8px]" >
+                  {subdomain ? <Link to="/login">Login</Link> : <Link to="/register">Sign Up</Link>}
+
+                </Button>
+              </Skeleton>}
+
             </span>
           </div>
         </div>

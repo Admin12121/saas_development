@@ -1,8 +1,27 @@
-const Spinner = () => {
+import {Spinner as SpinnerNext} from "@nextui-org/spinner"
+
+interface SpinnerProps {
+  label?: string;
+  size?: 'sm' | 'md' | 'lg';
+  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  labelColor?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  classNames?: string;
+  [key: string]: any; // for any additional props
+}
+
+const Spinner = ({
+  label,
+  size = 'sm',
+  color = 'primary',
+  labelColor = 'default',
+  classNames,
+  ...props
+}: SpinnerProps) => {
   return (
-    <svg id="loader" viewBox="25 25 50 50">
-      <circle id="circle_line" r="20" cy="50" cx="50"></circle>
-    </svg>
+    <div className={classNames}>
+      <SpinnerNext size={size} color={color} {...props} />
+      {label && <span style={{ color: labelColor }}>{label}</span>}
+    </div>
   );
 };
 

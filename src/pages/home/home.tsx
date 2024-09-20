@@ -2,10 +2,9 @@ import Layout from "@/components/layout/layout"
 import NotRegister from "./notRegister"
 import Hero from "./static"
 
-const Home = ({isValidSubdomain, originalDomain}:{isValidSubdomain:string | null, originalDomain:string | null}) => {
-  const showHome = isValidSubdomain || originalDomain;
+const Home = ({showHome}:{showHome:string | null}) => {
   return (
-    <Layout>
+    <Layout showHome={showHome}>
       {showHome ? <Hero/> : <NotRegister />}
     </Layout>
   )

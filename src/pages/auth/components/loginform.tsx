@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUpdateUserProfileMutation } from "@/api/service/user_Auth_Api";
-
+import { useLoginUserMutation } from "@/api/service/user_Auth_Api";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,18 +19,18 @@ import { toast } from "sonner";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const userRegistrationSchema = z.object({
-  email: z
+  user_name: z
     .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
+      required_error: "Please enter your username.",
+    }),
   password: z.string().max(160).min(4, "Password is required"),
 });
 
 type ProfileFormValues = z.infer<typeof userRegistrationSchema>;
 
 export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
-  const [UpdateProfile, { isLoading }] = useUpdateUserProfileMutation();
+  const navigate = useNavigate();
+  const [Login , { isLoading }] = useLoginUserMutation();
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(userRegistrationSchema),
@@ -38,19 +38,23 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    const NewFormData = new FormData();
-    NewFormData.append("email", data.email);
-    NewFormData.append("password", data.password);
-    const res = await UpdateProfile({ NewFormData });
+    const user = data
+    const res = await Login({ user });
     if (res.data) {
-      toast.success(res.data.msg, {
+      toast.success(res.data.message, {
         action: {
           label: "X",
           onClick: () => toast.dismiss(),
         },
       });
+      navigate(`/login/${res.data.user_name}`);
     } else {
-      console.log(res.error);
+      if ((res.error as any)?.data) {
+        Object.keys((res.error as any).data).forEach((key) => {
+          form.setError(key as keyof ProfileFormValues, { message: (res.error as any).data[key][0] });
+          toast.error((res.error as any).data[key][0]);
+        });
+      }
     }
   }
 
@@ -63,12 +67,12 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
         >
           <FormField
             control={form.control}
-            name="email"
+            name="user_name"
             render={({ field }) => (
               <FormItem className="col-span-full" style={{ margin: "0" }}>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>User Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Username" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -90,26 +94,13 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
           <Button
             className="col-span-full"
             loading={isLoading}
-            disabled={isLoading || !form.formState.isValid}
+            disabled={isLoading}
             type="submit"
           >
             Login
           </Button>
         </form>
       </Form>
-      {/* <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <Button variant="outline" type="button" disabled={isLoading} loading={isLoading}>
-        GitHub
-      </Button> */}
     </div>
   );
 }
