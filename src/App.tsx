@@ -17,17 +17,26 @@ import UserData from "@/pages/users/user";
 import AdminPanal from "@/pages/dashboard/admin-panal";
 import TwoFaOtp from "./pages/auth/twofa";
 import Availabledomains from "./pages/available-domains/availabledomains";
-import SiteManagement from "@/pages/site-management/site-management";
+// import SiteManagement from "@/pages/site-management/site-management";
+// import Homepage from "@/pages/site-management/home-pages/homepage1/homepage";
+import ThemesPage from "./pages/site-management/overlay";
+// import Domain from "@/pages/domain/domin";
 
 function App() {
   const { access_token } = getToken();
   const {isValidSubdomain, originalDomain, organization} = useSubdomainValidation(); 
   const showHome = isValidSubdomain || originalDomain;
 
+  const siteconfig = () => (
+    <Route path="home" element={ <ThemesPage /> } >
+    </Route>
+  )
+
   const routes = useMemo(
     () => (
       <Routes>
         <Route index element={<Home showHome={showHome}/>} />
+        <Route path='homepage1' element={<ThemesPage/>}/>
         <Route path="register" element={ <AuthenticationPage organization={organization}/>} />
         <Route path="login" element={<LoginPage organization={organization}/>} />
         <Route path="login/:username" element={ <TwoFaOtp/>} />
@@ -35,9 +44,10 @@ function App() {
         <Route path="active-account/:username" element={ <ActiveAccount/>} />
         <Route path="dashboard" element={ <Dashboard /> } >
           <Route index element={<AdminPanal/>} />
+          {/* <Route path="domain" element={<Domain/>}/> */}
           <Route path="users" element={<UserData/>} />
-          <Route path="site-management" element={<SiteManagement/>} />
         </Route>
+        {siteconfig()}
         <Route path="*" element={<Pagenotfound />} />
       </Routes>
     ),

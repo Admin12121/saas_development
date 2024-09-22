@@ -6,6 +6,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import {
   Dropdown,
@@ -23,14 +27,6 @@ import {
   SortDescriptor,
   Selection,
 } from "@nextui-org/table";
-
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card"
-import { labels } from "./data";
 import { Badge as Chip } from "@/components/ui/badge";
 import { User } from "@nextui-org/user";
 import { Pagination } from "@nextui-org/pagination";
@@ -41,7 +37,6 @@ import { IoReload } from "react-icons/io5";
 import { IoIosArrowDown as ChevronDownIcon } from "react-icons/io";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { statusOptions } from "./advanceddata";
 import { useNavigate } from "react-router-dom";
 import { PlusCircledIcon } from "@radix-ui/react-icons"
 
@@ -86,6 +81,11 @@ export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+const statusOptions = [
+  {name: "Published", uid: "i_published"},
+  {name: "Draft", uid: "draft"},
+];
+
 export default function NewAdvancedTable({
   SetExcludeBy,
   data,
@@ -95,8 +95,11 @@ export default function NewAdvancedTable({
   refetch,
   page,
   setPage,
+  DomainStatus,
   exclude_by,
+  HandleStatus,
 }: {
+  HandleStatus: any,
   exclude_by: string;
   SetExcludeBy: any;
   isLoading: boolean;
@@ -104,6 +107,7 @@ export default function NewAdvancedTable({
   setPage: React.Dispatch<React.SetStateAction<number>>;
   refetch: () => void;
   data: ApiResponse;
+  DomainStatus: any;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   dataperpage: React.Dispatch<React.SetStateAction<number | null>>;
 }) {
@@ -126,7 +130,6 @@ export default function NewAdvancedTable({
   const [course, setCourse] = React.useState<Users[]>([]);
   const [totalCourse, setTotalCourse] = React.useState<number>(0);
   const pages = Math.ceil(totalCourse / rowsPerPage);
-  const [DeleteModalId, setDeleteModalId] = React.useState<number | null>(null);
 
   useEffect(() => {
     if (data) {
@@ -231,7 +234,6 @@ export default function NewAdvancedTable({
           );
         case "actions":
           return (
-
             <div className="relative flex items-center justify-center gap-2">
               <DropdownMenuNext>
                 <DropdownMenuTrigger asChild>
@@ -245,9 +247,24 @@ export default function NewAdvancedTable({
                 <DropdownMenuContent align="end" className="w-[160px]">
                   <DropdownMenuItem className="cursor-pointer" onClick={() => router(`/domain/edit`)}>Edit</DropdownMenuItem>
                   <DropdownMenuItem>Make a copy</DropdownMenuItem>
-                  <DropdownMenuItem>Favorite</DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>Domin Status</DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuItem onClick={()=>DomainStatus(course.id)}>
+                          Verify
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => HandleStatus({status : "active", "id" : course.id})}>
+                          Active
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => HandleStatus({status : "block", "id" : course.id})}>
+                          Block
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={()=>setDeleteModalId(course.id)}>
+                  <DropdownMenuItem>
                     Delete
                     <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
                   </DropdownMenuItem>
@@ -489,47 +506,6 @@ export default function NewAdvancedTable({
           )}
         </TableBody>
       </Table>
-      {DeleteModalId && (
-        <DeleteModal
-          DeleteModalId={DeleteModalId}
-          setDeleteModalId={setDeleteModalId}
-        />
-      )}
     </>
   );
 }
-
-const DeleteModal = ({
-  DeleteModalId,
-  setDeleteModalId,
-}: {
-  DeleteModalId: number;
-  setDeleteModalId: React.Dispatch<React.SetStateAction<number | null>>;
-}) => {
-  return (
-    <section className="flex flex-col fixed w-[100vw] h-[100vh] bg-neutral-950/50 z-50 backdrop-blur-sm top-0 left-0 items-center justify-center">
-      <Card className=" rounded-lg min-h-[150px] w-[300px]">
-        <CardHeader className="pb-2">
-          <h1 className="text-lg font-normal">Delete Course</h1>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center justify-center gap-2 p-0 pb-2">
-          <p className="text-xs text-default-700 font-normal">
-            Are you sure you want to delete this course?
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-end gap-2">
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={() => setDeleteModalId(null)}
-          >
-            Cancel
-          </Button>
-          <Button size="sm" variant="secondary" color="danger">
-            Delete
-          </Button>
-        </CardFooter>
-      </Card>
-    </section>
-  );
-};

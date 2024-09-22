@@ -56,6 +56,30 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%
   }
+  .orange {
+    --background: 30 100% 50%;
+  }
+  .rose{
+    --background: 346.8 77.2% 49.8%;
+  }
+  .red{
+    --background: 0 72.2% 50.6%;
+  }
+  .neutral{
+    --background: 0 0% 10.1%;
+  }
+  .violet{
+    --background: 262.1 83.3% 57.8%;
+  }
+  .yellow{
+    --background: 47.9 95.8% 53.1%;
+  }
+  .blue{
+    --background: 221.2 83.2% 53.3%;
+  }
+  .green{
+    --background: 142.1 76.2% 36.3%;
+  }
 }
 
 @layer base {

@@ -254,6 +254,32 @@ export const userAuthapi = createApi({
         };
       },
     }),
+    verifyDomain: builder.mutation({
+      query: ({id}) => {
+        const  { access_token }  = getToken();
+        return {
+          url: `api/account/domains/${id}/verify/`,
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${access_token}`,
+          },
+        };
+      },
+    }),
+    updateDomainStatus: builder.mutation({
+      query: ({data, id}) => {
+        console.log(id)
+        const  { access_token }  = getToken();
+        return {
+          url: `api/account/user-domain-info/${id}/`,
+          method: "PATCH",
+          body: data,
+          headers: {
+            authorization: `Bearer ${access_token}`,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -277,4 +303,6 @@ export const {
   useRefreshAccessTokenMutation,
   useUserDataQuery,
   useGetavailableDomainQuery,
+  useVerifyDomainMutation,
+  useUpdateDomainStatusMutation,
 } = userAuthapi;
