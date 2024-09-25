@@ -8,16 +8,18 @@ import {
 import { ThemeCustomizer } from "@/pages/site-management/components/theme-customizer";
 import { ThemeWrapper } from "@/pages/site-management/components/theme-wrapper";
 import { Outlet } from "react-router-dom";
+import { getToken } from "@/api/service/localStorageServices";
 import { ThemesTabs } from "./tabs";
 import { useState } from "react";
 
 export default function ThemesPage() {
   const [bgtheme, setBgtheme] = useState<any>("");
+  const { user_role } = getToken();
+
   return (
     <ThemeWrapper defaultTheme="zinc">
-      <div
-        className={`relative flex min-h-screen flex-col bg-background items-center  ${bgtheme}`}
-      >
+      {user_role == "admin" || "superadmin" && <div className={`relative flex  flex-col bg-background items-center  ${bgtheme}`} >
+      {/* {user_role == "admin" || "superadmin" && <div className={`relative flex  flex-col bg-background items-center`} > */}
         <div className="container  flex-1">
           <div className="relative flex w-full flex-col items-start md:flex-row">
             <PageHeader className="w-full">
@@ -35,10 +37,10 @@ export default function ThemesPage() {
               </PageActions>
             </PageHeader>
           </div>
-          <ThemesTabs />
-          <Outlet />
+          {/* <ThemesTabs/> */}
         </div>
-      </div>
+      </div>}
+      <Outlet />
     </ThemeWrapper>
   );
 }

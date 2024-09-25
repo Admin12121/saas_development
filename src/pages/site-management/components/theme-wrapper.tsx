@@ -8,7 +8,7 @@ interface ThemeWrapperProps extends React.ComponentProps<"div"> {
 }
 
 export function ThemeWrapper({
-  defaultTheme,
+  // defaultTheme,
   children,
   className,
 }: ThemeWrapperProps) {
@@ -17,13 +17,13 @@ export function ThemeWrapper({
   return (
     <div
       className={cn(
-        `theme-${defaultTheme || config.theme}`,
+        `theme-${config.theme}`,
         "w-full",
         className
       )}
       style={
         {
-          "--radius": `${defaultTheme ? 0.5 : config.radius}rem`,
+          "--radius": `${ config.radius}rem`,
         } as React.CSSProperties
       }
     >

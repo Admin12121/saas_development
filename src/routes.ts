@@ -1,5 +1,6 @@
 export const publicRoutes = [
     "/",
+    "/home",
     "/register",
     "/login",
     "/login/:username",
@@ -10,6 +11,10 @@ export const publicRoutes = [
 export const protectedRoutes = [
     "/dashboard",
     "/dashboard/.*",
+];
+
+export const rolebaseRoutes = [
+    { path: "/dashboard/domain", roles: ["superadmin"] }
 ];
 
 export const authRoutes = [
