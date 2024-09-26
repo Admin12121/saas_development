@@ -280,6 +280,44 @@ export const userAuthapi = createApi({
         };
       },
     }),
+    registerForm: builder.mutation({
+      query:({actualData}) => {
+        const {access_token} = getToken();
+        return {
+          url: `api/account/form/`,
+          method: "POST",
+          body: actualData,
+          headers: {
+            authorization: `Bearer ${access_token}`,
+          },
+        }
+      }
+    }),
+    updateForm: builder.mutation({
+      query:({actualData, id}) => {
+        const {access_token} = getToken();
+        return {
+          url: `api/account/form/${id}/`,
+          method: "PATCH",
+          body: actualData,
+          headers: {
+            authorization: `Bearer ${access_token}`,
+          },
+        }
+      }
+    }),
+    getForm: builder.query({
+      query:({form_type}) => {
+        // const {access_token} = getToken();
+        return {
+          url: `api/account/form/${form_type ? `?form_type=${form_type}` : ""}`,
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      }
+    })
   }),
 });
 
@@ -305,4 +343,7 @@ export const {
   useGetavailableDomainQuery,
   useVerifyDomainMutation,
   useUpdateDomainStatusMutation,
+  useRegisterFormMutation,
+  useUpdateFormMutation,
+  useGetFormQuery
 } = userAuthapi;

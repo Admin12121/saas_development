@@ -17,14 +17,16 @@ import UserData from "@/pages/users/user";
 import AdminPanal from "@/pages/dashboard/admin-panal";
 import TwoFaOtp from "@/pages/auth/twofa";
 import Availabledomains from "@/pages/available-domains/availabledomains";
-// import SiteManagement from "@/pages/site-management/site-management";
-// import Homepage from "@/pages/site-management/home-pages/homepage1/homepage";
+import SiteManagement from "@/pages/site-management/site-management";
 import ThemesPage from "@/pages/site-management/overlay";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-// import Domain from "@/pages/domain/domin";
 import { BuilderPage } from "@/pages/site-management/app/formbuilder/page"
 import DesignerContextProvider from "@/pages/site-management/app/formbuilder/components/context/DesignerContext";
+import SubdominLogin from "@/pages/site-management/app/auth/login"
+import SubdominRegistration from "@/pages/site-management/app/auth/registration"
+// import Homepage from "@/pages/site-management/home-pages/homepage1/homepage";
+// import Domain from "@/pages/domain/domin";
 
 function App() {
   const { access_token } = getToken();
@@ -33,7 +35,15 @@ function App() {
 
   const siteconfig = () => (
       <Route path="home" element={ <ThemesPage /> } >
-        <Route path="formbuilder" element={<BuilderPage/>}/>
+        <Route path="formbuilder/:form_type" element={<BuilderPage/>}/>
+        <Route path="login" element={<BuilderPage/>}/>
+      </Route>
+  )
+
+  const authconfig = () => (
+      <Route path="auth" >
+        <Route index element={<SubdominLogin organization={organization}/>}/>
+        <Route path="registration" element={<SubdominRegistration type="registration"/>} />
       </Route>
   )
 
@@ -43,7 +53,6 @@ function App() {
         <DesignerContextProvider>
         <Routes>
           <Route index element={<Home showHome={showHome}/>} />
-          <Route path='homepage1' element={<ThemesPage/>}/>
           <Route path="register" element={ <AuthenticationPage organization={organization}/>} />
           <Route path="login" element={<LoginPage organization={organization}/>} />
           <Route path="login/:username" element={ <TwoFaOtp/>} />
@@ -52,9 +61,11 @@ function App() {
           <Route path="dashboard" element={ <Dashboard /> } >
             <Route index element={<AdminPanal/>} />
             {/* <Route path="domain" element={<Domain/>}/> */}
+            <Route path="site-management" element={<SiteManagement/>}/>
             <Route path="users" element={<UserData/>} />
           </Route>
           {siteconfig()}
+          {authconfig()}
           <Route path="*" element={<Pagenotfound />} />
         </Routes>
         </DesignerContextProvider>

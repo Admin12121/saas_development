@@ -1,15 +1,14 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getToken } from "@/api/service/localStorageServices";
-// import { publicRoutes, protectedRoutes, authRoutes, rolebaseRoutes, Default_Login_Redirect } from "@/routes";
-import { protectedRoutes, authRoutes, rolebaseRoutes, Default_Login_Redirect } from "@/routes";
+import { publicRoutes, protectedRoutes, authRoutes, rolebaseRoutes, Default_Login_Redirect } from "@/routes";
 
 const RouteProvider = ({ children }:{ children: React.ReactNode }) => {
   const { access_token, user_role } = getToken();
   const location = useLocation();
-
+  console.log(user_role)
   const isProtectedRoute = protectedRoutes.some(route => new RegExp(route).test(location.pathname));
-  // const isPublicRoute = !isProtectedRoute && publicRoutes.some(route => new RegExp(route).test(location.pathname));
+  const isPublicRoute = !isProtectedRoute && publicRoutes.some(route => new RegExp(route).test(location.pathname));
   const isAuthRoute = authRoutes.some(route => new RegExp(route).test(location.pathname));
   const roleBasedRoute = rolebaseRoutes.find(route => new RegExp(route.path).test(location.pathname));
 

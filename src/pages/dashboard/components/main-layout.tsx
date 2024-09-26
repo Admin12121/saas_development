@@ -156,7 +156,7 @@ export function MainLayout({
                   icon: UserRound,
                   href: "users",
                   variant: pathname.endsWith("/users") ? "default" : "ghost",
-                  auth: ["admin", "superadmin"]                  
+                  auth: ["superadmin"]                  
                 },
                 {
                   title: "Analytics",

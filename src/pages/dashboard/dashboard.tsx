@@ -18,16 +18,6 @@ const Dashboard = () => {
   const subdomain = getSubdomain();
   const { error: errorMessage, handleError } = useErrorHandler();
   const userData = data;
-  
-  // useEffect(() => {
-  //   if (data) {
-  //     if (data.subdomain && data.subdomain == subdomain.subdomain) {
-  //       clearError();
-  //     }else{
-  //       handleError("DOMAIN_ERROR")
-  //     }
-  //   }
-  // }, [data, subdomain]);
 
   useEffect(() => {
     if (data && data.subdomain) {

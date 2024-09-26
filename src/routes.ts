@@ -11,10 +11,13 @@ export const publicRoutes = [
 export const protectedRoutes = [
     "/dashboard",
     "/dashboard/.*",
+    "/home/formbuilder/.*",
 ];
 
 export const rolebaseRoutes = [
-    { path: "/dashboard/domain", roles: ["superadmin"] }
+    { path: "/dashboard/domain", roles: ["superadmin"] },
+    { path: "/dashboard/users", roles: ["superadmin"] },
+    { path: "/home/formbuilder/:form_type", roles: ["admin"] } 
 ];
 
 export const authRoutes = [

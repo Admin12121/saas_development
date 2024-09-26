@@ -9,6 +9,7 @@ import {
 import { Button } from "@/pages/site-management/registry/new-york/ui/button";
 import { MdSend } from "react-icons/md";
 import useDesigner from "../../hooks/useDesigner";
+import Spinner from "@/components/ui/spinner";
 
 const type: ElementsType = "SubmitButtonField";
 
@@ -54,13 +55,23 @@ function DesignerComponent({
 
 function FormComponent({
   elementInstance,
+  submitForm,
+  pending
 }: {
   elementInstance: FormElementInstance;
+  submitForm?: () => void;
+  pending?: boolean;
 }) {
   const element = elementInstance as CustomInstance;
   return (
-    <Button type="submit" className="w-full">
-      {element.extraAttributes.label}
+    <Button
+      type="submit" 
+      className="w-full"
+      onClick={submitForm}
+      disabled={pending}
+      >
+      {!pending && element.extraAttributes.label}
+      {pending && <Spinner/>}
     </Button>
   );
 }

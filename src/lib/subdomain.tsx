@@ -13,6 +13,7 @@ export const getSubdomain = () => {
   }else{
     originalDomain = hostname;
   }
+
   return { subdomain, originalDomain }; 
 };
 
@@ -31,7 +32,7 @@ export const useSubdomainValidation = () => {
       if (subdomain) {
         try {
           const response = await domainCheck({ actualData: { subdomain: subdomain } });
-          if(response.data.msg === "Subdomain is Registered"){
+          if(response.data.msg === "Subdomain is registered and active"){
             setIsValidSubdomain(subdomain);
             setOrganization(response.data.organization);
           }else{

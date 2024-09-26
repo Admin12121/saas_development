@@ -6,7 +6,6 @@ import {
   ResetIcon,
   SunIcon,
 } from "@radix-ui/react-icons"
-import { Save } from "lucide-react"
 import { useTheme } from "@/components/providers/theme-provider";
 
 import { cn } from "@/lib/utils"
@@ -141,10 +140,10 @@ export function ThemeCustomizer({setBgtheme, bgtheme}:any) {
           )}
         </div>
       </div>
-      <Button variant="ghost" size="sm" className="">
+      {/* <Button variant="ghost" size="sm" className="">
          <Save className="mr-2 h-4 w-4"/>
           Save
-        </Button>
+        </Button> */}
     </div>
   )
 }

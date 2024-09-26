@@ -1,52 +1,36 @@
-import React, { useTransition } from "react";
 import useDesigner from "./hooks/useDesigner";
 import { Button } from "./ui/button";
 import { Download as HiSaveAs } from "lucide-react";
-import { FaSpinner } from "react-icons/fa";
-import { toast } from "./ui/use-toast";
-// import { UpdateFormContent } from "@/actions/form";
+import { useUpdateFormMutation } from "@/api/service/user_Auth_Api"
+import Spinner from "@/components/ui/spinner";
 
 const SaveFormBtn = ({ id }: { id: number }) => {
   const { elements } = useDesigner();
-  const [loading, startTransition] = useTransition();
+  const [ update , {isLoading}] = useUpdateFormMutation();
 
-  // const updateFormContent = async () => {
-  //   try {
-  //     const jsonElements = JSON.stringify(elements);
-  //     // await UpdateFormContent(id, jsonElements);
-  //     console.log(jsonElements)
-  //     toast({
-  //       title: "Success",
-  //       description: "Your form has been saved!!!!!",
-  //     });
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error",
-  //       description: "something went wrong",
-  //       variant: "destructive",
-  //     });
-  //   }
-  // };
-
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const jsonElements = JSON.stringify(elements);
-    console.log(jsonElements)
+    const actualData = {"content": jsonElements}
+    const res = await update({id, actualData})
+    if(res.data){
+      console.log("daved well done")
+    }else{
+      console.log("something went wrong")
+    }
   }
 
   return (
     <Button
       variant="secondary"
       className="gap-2"
-      disabled={loading}
+      disabled={isLoading}
       onClick={() => {
-        // startTransition(updateFormContent);
         handleSubmit()
       }}
     >
       <HiSaveAs className="w-4 h-4" />
       Save
-      {loading && <FaSpinner className="animate-spin" />}
+      {isLoading && <Spinner/>}
     </Button>
   );
 };

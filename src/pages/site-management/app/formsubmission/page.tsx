@@ -2,17 +2,12 @@
 
 import { useCallback, useRef, useState, useTransition } from "react";
 import { FormElementInstance, FormElements } from "../formbuilder/components/FormElements";
-import { Button } from "@/components/ui/button";
-import { HiCursorClick } from "react-icons/hi";
 import { toast } from "@/pages/site-management/app/formbuilder/components/ui/use-toast";
-import { ImSpinner2 } from "react-icons/im";
 import { SubmitForm } from "@/pages/site-management/actions/form";
 
 const FormSubmitComponent = ({
-  formUrl,
   content,
 }: {
-  formUrl: string;
   content: FormElementInstance[];
 }) => {
   const formValues = useRef<{ [key: string]: string }>({});
@@ -25,15 +20,23 @@ const FormSubmitComponent = ({
   const validateForm: () => boolean = useCallback(() => {
     for (const field of content) {
       const actualValue = formValues.current[field.id] || "";
-      const valid = FormElements[field.type].validate(field, actualValue);
-
+      let valid = false;
+  
+      try {
+        valid = FormElements[field.type].validate(field, actualValue);
+      } catch (error) {
+        console.error(`Validation error for field ${field.id}:`, error);
+        formErrors.current[field.id] = true;
+        continue;
+      }
+  
       if (!valid) {
         formErrors.current[field.id] = true;
       }
     }
-
+  
     if (Object.keys(formErrors.current).length > 0) return false;
-
+  
     return true;
   }, [content]);
 
@@ -54,10 +57,9 @@ const FormSubmitComponent = ({
 
       return;
     }
-
     try {
       const jsonContent = JSON.stringify(formValues.current);
-      await SubmitForm(formUrl, jsonContent);
+      await SubmitForm(jsonContent);
       setSubmitted(true);
     } catch (error) {
       toast({
@@ -82,8 +84,8 @@ const FormSubmitComponent = ({
   }
 
   return (
-    <div className="flex justify-center w-full h-full items-center p-8">
-      <div key={renderKey} className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-700 rounded">
+    <div className="flex justify-center w-full items-center p-8 h-screen">
+      <div key={renderKey} className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 overflow-y-auto border rounded ">
         {content.map((element) => {
           const FormElement = FormElements[element.type].formComponent;
           return (
@@ -93,25 +95,11 @@ const FormSubmitComponent = ({
               submitValue={submitValue}
               isInvalid={formErrors.current[element.id]}
               defaultValue={formValues.current[element.id]}
+              submitForm={submitForm}
+              pending={pending}
             />
           );
         })}
-
-        <Button
-          className="mt-8"
-        //   onClick={() => {
-        //     startTransition(submitForm);
-        //   }}
-          disabled={pending}
-        >
-          {!pending && (
-            <>
-              <HiCursorClick className="mr-2" />
-              Submit
-            </>
-          )}
-          {pending && <ImSpinner2 className="animate-spin" />}
-        </Button>
       </div>
     </div>
   );

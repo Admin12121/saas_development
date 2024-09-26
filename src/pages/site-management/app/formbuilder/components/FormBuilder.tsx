@@ -18,9 +18,9 @@ import {
 } from "@dnd-kit/core";
 import useDesigner from "./hooks/useDesigner";
 import { Button } from "./ui/button";
-import { toast } from "./ui/use-toast";
-import { Input } from "./ui/input";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+// import { toast } from "./ui/use-toast";
+// import { Input } from "./ui/input";
+import { BsArrowLeft } from "react-icons/bs";
 import Spinner from "@/components/ui/spinner";
 import {
   Card,
@@ -28,15 +28,9 @@ import {
 
 interface Form {
   id: number;
-  userId: string;
-  createdAt: string;
   published: boolean;
   name: string;
-  description: string;
   content: string;
-  visits: number;
-  submissions: number;
-  shareURL: string;
 }
 
 const FormBuilder = ({ form }: { form: Form }) => {
@@ -81,8 +75,6 @@ const FormBuilder = ({ form }: { form: Form }) => {
     );
   }
 
-  const shareUrl = `${window.location.origin}/submit/${form.shareURL}`;
-
   if (form.published) {
     return (
       <>
@@ -96,7 +88,7 @@ const FormBuilder = ({ form }: { form: Form }) => {
               Anyone with the link can view and submit the form
             </h3>
             <div className="my-4 flex flex-col gap-2 items-center w-full border-b pb-4">
-              <Input className="w-full" readOnly value={shareUrl} />
+              {/* <Input className="w-full" readOnly value={shareUrl} />
               <Button
                 className="mt-2 w-full"
                 onClick={() => {
@@ -108,7 +100,7 @@ const FormBuilder = ({ form }: { form: Form }) => {
                 }}
               >
                 Copy link
-              </Button>
+              </Button> */}
             </div>
 
             <div className="flex justify-between">
@@ -119,10 +111,10 @@ const FormBuilder = ({ form }: { form: Form }) => {
                 </Link>
               </Button>
               <Button variant={"link"} asChild>
-                <Link to={`/forms/${form.id}`} className="gap-2">
+                {/* <Link to={`/forms/${form.id}`} className="gap-2">
                   Form details
                   <BsArrowRight />
-                </Link>
+                </Link> */}
               </Button>
             </div>
           </div>
