@@ -235,6 +235,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                       </div>
                       <Button
                         type="button"
+                        className="bg-blue-700 text-white "
                         disabled={
                           DoaminLoading || !!form.formState.errors.subdomain ||  form.getValues("subdomain") === ""
                         }

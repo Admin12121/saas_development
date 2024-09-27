@@ -8,12 +8,10 @@ interface ThemeWrapperProps extends React.ComponentProps<"div"> {
 }
 
 export function ThemeWrapper({
-  // defaultTheme,
   children,
   className,
 }: ThemeWrapperProps) {
   const [config] = useConfig()
-
   return (
     <div
       className={cn(

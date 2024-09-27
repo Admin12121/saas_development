@@ -12,6 +12,8 @@ import {
 
 interface NavProps {
   isCollapsed: boolean
+  className?: string
+  side?:any
   links: {
     title: string
     label?: string
@@ -20,10 +22,11 @@ interface NavProps {
     variant: "default" | "ghost"
     prefetch?: boolean;
     auth: ("admin" | "superadmin" | "member")[]
+    className?: string
   }[]
 }
 
-export function Nav({ links, isCollapsed }: NavProps) {
+export function Nav({ links, side="right", isCollapsed, className }: NavProps) {
   const { user_role } = getToken();
 
   const filteredLinks = links.filter(link => {
@@ -34,9 +37,9 @@ export function Nav({ links, isCollapsed }: NavProps) {
   return (
     <div
       data-collapsed={isCollapsed}
-      className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+      className={cn("group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2")}
     >
-      <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+      <nav className={cn("grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2", className)}>
         {filteredLinks.map((link, index) =>
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
@@ -54,7 +57,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                   <span className="sr-only">{link.title}</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right" className="flex items-center gap-4">
+              <TooltipContent side={side} className="flex items-center gap-4">
                 {link.title}
                 {link.label && (
                   <span className="ml-auto text-muted-foreground">
@@ -71,10 +74,10 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&
                   "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                "justify-start"
+                "justify-start",
               )}
             >
-              <link.icon className="mr-2 h-4 w-4" />
+              <link.icon className={cn("mr-2 h-4 w-4", link.className)} />
               {link.title}
               {link.label && (
                 <span

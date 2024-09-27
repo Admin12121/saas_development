@@ -100,3 +100,23 @@
 ::-webkit-scrollbar{
   display: none;
 }
+
+
+.bg-radial-gradient {
+  background: radial-gradient(circle 50vw at top, #014dd0 0%, #0c2b89 40%, #020838 100%);
+}
+
+.half-circle-container {
+  position: relative;
+  width: 60vw;
+  height: 350px;
+  overflow: hidden; 
+}
+
+.half-circle-container img {
+  width: 100%;
+  height: auto;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  object-fit: cover;
+}

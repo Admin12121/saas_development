@@ -30,7 +30,7 @@ interface Form {
   id: number;
   published: boolean;
   name: string;
-  content: string;
+  content: any;
 }
 
 const FormBuilder = ({ form }: { form: Form }) => {
@@ -60,7 +60,7 @@ const FormBuilder = ({ form }: { form: Form }) => {
 
   useEffect(() => {
     if (isReady) return;
-    const elements = JSON.parse(form.content);
+    const elements = form.content;
     setElements(elements);
     setSelectedElement(null);
     const readyTimeout = setTimeout(() => setIsReady(true), 500);

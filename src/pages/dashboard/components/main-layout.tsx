@@ -1,12 +1,12 @@
 import * as React from "react";
 import {
-  UserRound ,
-  House ,
+  UserRound,
+  House,
   Search,
-  ChartSpline ,
+  ChartSpline,
   Trash2,
   Globe,
-  LayoutDashboard
+  LayoutDashboard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,7 @@ interface PanalProps {
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
   children: React.ReactNode;
-  data:any
+  data: any;
 }
 
 export function MainLayout({
@@ -94,7 +94,8 @@ export function MainLayout({
               false
             )}`;
           }}
-          className={cn('p-2 max-md:hidden',
+          className={cn(
+            "p-2 max-md:hidden",
             isCollapsed &&
               "min-w-[68px] transition-all duration-300 ease-in-out"
           )}
@@ -106,23 +107,35 @@ export function MainLayout({
                 isCollapsed ? "h-[52px]" : "px-2"
               )}
             >
-              <AccountSwitcher isCollapsed={isCollapsed}  />
+              <AccountSwitcher isCollapsed={isCollapsed} />
             </div>
-            { <div className=" p-2">
-              <form>
-                <div className={`relative dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white rounded-lg ${isCollapsed ? "w-[36px] h-[36px]" : "w-full"}`}>
-                  {isCollapsed ? <></> : <> <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Search"
-                      className="pl-8 border-0 focus:outline-none focus-visible:ring-0"
-                    /></>}
-                  <Kbd
-                    keys={["command"]}
-                    className="rounded-md absolute right-2 top-[6px] shadow-lg"
-                  ></Kbd>
-                </div>
-              </form>
-            </div>}
+            {
+              <div className=" p-2">
+                <form>
+                  <div
+                    className={`relative dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white rounded-lg ${
+                      isCollapsed ? "w-[36px] h-[36px]" : "w-full"
+                    }`}
+                  >
+                    {isCollapsed ? (
+                      <></>
+                    ) : (
+                      <>
+                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Search"
+                          className="pl-8 border-0 focus:outline-none focus-visible:ring-0"
+                        />
+                      </>
+                    )}
+                    <Kbd
+                      keys={["command"]}
+                      className="rounded-md absolute right-2 top-[6px] shadow-lg bg-muted"
+                    ></Kbd>
+                  </div>
+                </form>
+              </div>
+            }
             <Nav
               isCollapsed={isCollapsed}
               links={[
@@ -131,8 +144,10 @@ export function MainLayout({
                   label: "128",
                   href: "/dashboard",
                   icon: House,
-                  variant: pathname.endsWith("/dashboard") ? "default" : "ghost",
-                  auth: ["admin", "superadmin", "member"]
+                  variant: pathname.endsWith("/dashboard")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin", "superadmin", "member"],
                 },
                 {
                   title: "Domain",
@@ -140,15 +155,17 @@ export function MainLayout({
                   href: "domain",
                   icon: Globe,
                   variant: pathname.endsWith("/domain") ? "default" : "ghost",
-                  auth: ["superadmin"]
+                  auth: ["superadmin"],
                 },
                 {
                   title: "Site Management",
                   label: "9",
                   href: "site-management",
                   icon: LayoutDashboard,
-                  variant: pathname.endsWith("/site-management") ? "default" : "ghost",
-                  auth: ["admin"]
+                  variant: pathname.endsWith("/site-management")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin"],
                 },
                 {
                   title: "Users",
@@ -156,23 +173,25 @@ export function MainLayout({
                   icon: UserRound,
                   href: "users",
                   variant: pathname.endsWith("/users") ? "default" : "ghost",
-                  auth: ["superadmin"]                  
+                  auth: ["superadmin"],
                 },
                 {
                   title: "Analytics",
                   label: "",
                   icon: ChartSpline,
                   href: "analytics",
-                  variant: pathname.endsWith("/analytics") ? "default" : "ghost",
-                  auth: ["admin", "superadmin"]                  
+                  variant: pathname.endsWith("/analytics")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin", "superadmin"],
                 },
                 {
                   title: "Trash",
                   label: "",
                   icon: Trash2,
                   href: "trash",
-                  variant: pathname.endsWith("/trash")? "default" : "ghost",
-                  auth: ["superadmin"]                  
+                  variant: pathname.endsWith("/trash") ? "default" : "ghost",
+                  auth: ["superadmin"],
                 },
               ]}
             />
@@ -182,15 +201,110 @@ export function MainLayout({
                 isCollapsed ? "h-[52px]" : "px-2"
               )}
             >
-              <UserNav data={data} isCollapsed={isCollapsed}/>
-            </div>            
+              <UserNav data={data} isCollapsed={isCollapsed} />
+            </div>
           </div>
-        </ResizablePanel> 
-        <ResizableHandle withHandle className="bg-transparent w-2 max-md:hidden" />
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30} className="p-2 overflow-hidden overflow-y-auto h-[100vh]">
+        </ResizablePanel>
+        <ResizableHandle
+          withHandle
+          className="bg-transparent w-2 max-md:hidden"
+        />
+        <ResizablePanel
+          defaultSize={defaultLayout[1]}
+          minSize={30}
+          className="p-2 overflow-hidden overflow-y-auto h-[100vh]"
+        >
           {children}
         </ResizablePanel>
       </ResizablePanelGroup>
+      <div className="px-2 absolute bottom-1 w-full hidden max-md:flex">
+        <div className="rounded-lg dark:bg-neutral-900 h-full relative w-full flex px-0 justify-between">
+          <span className="flex pl-2">
+            {
+              <div className="flex justify-center items-center">
+                <form>
+                  <div
+                    className={`relative dark:bg-muted justify-center cursor-pointer items-center flex dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white rounded-lg ${
+                      "w-[36px] h-[36px]" 
+                    }`}
+                  >
+                    <Search className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                </form>
+              </div>
+            }
+            <Nav
+              className="flex items-start justify-start px-0"
+              isCollapsed={true}
+              side={"top"}
+              links={[
+                {
+                  title: "Dashboard",
+                  label: "128",
+                  href: "/dashboard",
+                  icon: House,
+                  variant: pathname.endsWith("/dashboard")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin", "superadmin", "member"],
+                },
+                {
+                  title: "Domain",
+                  label: "9",
+                  href: "domain",
+                  icon: Globe,
+                  variant: pathname.endsWith("/domain") ? "default" : "ghost",
+                  auth: ["superadmin"],
+                },
+                {
+                  title: "Site Management",
+                  label: "9",
+                  href: "site-management",
+                  icon: LayoutDashboard,
+                  variant: pathname.endsWith("/site-management")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin"],
+                },
+                {
+                  title: "Users",
+                  label: "",
+                  icon: UserRound,
+                  href: "users",
+                  variant: pathname.endsWith("/users") ? "default" : "ghost",
+                  auth: ["superadmin"],
+                },
+                {
+                  title: "Analytics",
+                  label: "",
+                  icon: ChartSpline,
+                  href: "analytics",
+                  variant: pathname.endsWith("/analytics")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin", "superadmin"],
+                },
+                {
+                  title: "Trash",
+                  label: "",
+                  icon: Trash2,
+                  href: "trash",
+                  variant: pathname.endsWith("/trash") ? "default" : "ghost",
+                  auth: ["superadmin"],
+                },
+              ]}
+            />
+          </span>
+          <div
+            className={cn(
+              "flex h-[52px] items-center justify-center bottom-1 pr-2",
+              isCollapsed ? "h-[52px]" : "px-2"
+            )}
+          >
+            <UserNav left={false} data={data} isCollapsed={true} />
+          </div>
+        </div>
+      </div>
     </TooltipProvider>
   );
 }

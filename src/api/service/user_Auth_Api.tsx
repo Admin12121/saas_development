@@ -284,7 +284,7 @@ export const userAuthapi = createApi({
       query:({actualData}) => {
         const {access_token} = getToken();
         return {
-          url: `api/account/form/`,
+          url: `api/form/form/`,
           method: "POST",
           body: actualData,
           headers: {
@@ -297,7 +297,7 @@ export const userAuthapi = createApi({
       query:({actualData, id}) => {
         const {access_token} = getToken();
         return {
-          url: `api/account/form/${id}/`,
+          url: `api/form/form/${id}/`,
           method: "PATCH",
           body: actualData,
           headers: {
@@ -308,16 +308,52 @@ export const userAuthapi = createApi({
     }),
     getForm: builder.query({
       query:({form_type}) => {
-        // const {access_token} = getToken();
         return {
-          url: `api/account/form/${form_type ? `?form_type=${form_type}` : ""}`,
+          url: `api/form/form/${form_type ? `?form_type=${form_type}` : ""}`,
           method: "GET",
           headers: {
             "Content-type": "application/json",
           },
         }
       }
-    })
+    }),
+    getSiteSetup : builder.query({
+      query:({}) => {
+        return{
+          url: `api/form/site-management/`,
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      }
+    }),
+    updateSetup : builder.mutation({
+      query:({actualData}) => {
+        const {access_token} = getToken();
+        return {
+          url: `api/form/site-management/`,
+          method: "PATCH",
+          body: actualData,
+          headers: {
+            authorization: `Bearer ${access_token}`,
+          },
+        }
+      }
+    }),
+    postSetup : builder.mutation({
+      query:({actualData}) => {
+        const {access_token} = getToken();
+        return {
+          url: `api/form/site-management/`,
+          method: "POST",
+          body: actualData,
+          headers: {
+            authorization: `Bearer ${access_token}`,
+          },
+        }
+      }
+    }),
   }),
 });
 
@@ -345,5 +381,8 @@ export const {
   useUpdateDomainStatusMutation,
   useRegisterFormMutation,
   useUpdateFormMutation,
-  useGetFormQuery
+  useGetFormQuery,
+  useGetSiteSetupQuery,
+  useUpdateSetupMutation,
+  usePostSetupMutation,
 } = userAuthapi;

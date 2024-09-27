@@ -13,14 +13,15 @@ export default function AuthenticationPage() {
           to="/available-domains"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute right-4 top-4 md:right-8 md:top-8 bg-blue-600 text-white"
           )}
         >
           Login
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-          <div className="absolute inset-0 bg-zinc-900" />
-
+          <div className="absolute inset-0 bg-zinc-900" >
+            <img src="./theme.jpg" alt="" className="w-full h-full object-cover"/>
+          </div>
           <div className="relative z-20 flex items-center text-lg font-medium">
             <img src="/images/logo.png" className="p-2 w-14 h-14" alt="logo" /> 
             Kantipur Infotech

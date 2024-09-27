@@ -31,18 +31,22 @@ import {
 } from "@/pages/site-management/registry/new-york/ui/tooltip"
 import { baseColors } from "@/pages/site-management/registry/registry-base-colors"
 import { backgroundColors } from "@/pages/site-management/registry/register-background-color";
-
+import { Separator } from "@/pages/site-management/registry/new-york/ui/separator"
+import { useUpdateSetupMutation, usePostSetupMutation } from "@/api/service/user_Auth_Api"
 
 import "@/pages/site-management/styles/mdx.css"
+import { toast } from "sonner";
 
 export function ThemeCustomizer({setBgtheme, bgtheme}:any) {
   const [config, setConfig] = useConfig()
   const { theme: mode } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
+
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
 
   return (
     <div className="flex items-center gap-2">
@@ -63,7 +67,7 @@ export function ThemeCustomizer({setBgtheme, bgtheme}:any) {
           </PopoverTrigger>
           <PopoverContent
             align="start"
-            className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950"
+            className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950 h-[90vh] overflow-hidden overflow-y-auto"
           >
             <Customizer setBgtheme={setBgtheme} bgtheme={bgtheme}/>
           </PopoverContent>
@@ -140,10 +144,6 @@ export function ThemeCustomizer({setBgtheme, bgtheme}:any) {
           )}
         </div>
       </div>
-      {/* <Button variant="ghost" size="sm" className="">
-         <Save className="mr-2 h-4 w-4"/>
-          Save
-        </Button> */}
     </div>
   )
 }
@@ -152,15 +152,30 @@ function Customizer({bgtheme, setBgtheme}:any) {
   const [mounted, setMounted] = React.useState(false)
   const { setTheme: setMode, theme: mode } = useTheme()
   const [config, setConfig] = useConfig()
+  const [ postSiteconfig, {isLoading: postloading} ] = usePostSetupMutation()
+  const [updateSiteconfig, {isLoading}] = useUpdateSetupMutation();
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
 
+  const handleSubmition = () =>{
+    const actualData = {
+      ...config,
+      type: "siteconfig"
+    }
+    const res = postSiteconfig({actualData})
+    if(res && (res as any).data){
+      toast.success("theme updated")
+    }else{
+      toast.error("somthing went wrong")
+    }
+  }
+
   return (
     <ThemeWrapper
       defaultTheme="zinc"
-      className="flex flex-col space-y-4 md:space-y-6"
+      className="flex flex-col space-y-4 md:space-y-6 h-[85vh] overflow-hidden overflow-y-auto"
     >
       <div className="flex items-start pt-4 md:pt-0">
         <div className="space-y-1 pr-2">
@@ -382,6 +397,29 @@ function Customizer({bgtheme, setBgtheme}:any) {
             ) : (
               <>
                 <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+              </>
+            )}
+          </div>
+        </div>
+          <Separator/>
+        <div className="space-y-1.5">
+          <div className="grid grid-cols-3 gap-2">
+            {mounted ? (
+              <>
+                <Button
+                  variant={"outline"}
+                  size="sm"
+                  loading={isLoading || postloading}
+                  disabled={isLoading || postloading}
+                  onClick={handleSubmition}
+                  className={cn(mode === "light" && "border-2 border-primary")}
+                >
+                  Apply
+                </Button>
+              </>
+            ) : (
+              <>
                 <Skeleton className="h-8 w-full" />
               </>
             )}

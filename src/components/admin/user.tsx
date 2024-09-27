@@ -17,9 +17,10 @@ import { useHandleLogout } from "@/lib/actions";
 interface AccountSwitcherProps {
   isCollapsed?: boolean;
   data:any
+  left?:boolean
 }
 
-export function UserNav({ isCollapsed , data}: AccountSwitcherProps) {
+export function UserNav({ isCollapsed , left=true, data}: AccountSwitcherProps) {
   const handleLogout = useHandleLogout();
   return (
     <DropdownMenu>
@@ -58,7 +59,7 @@ export function UserNav({ isCollapsed , data}: AccountSwitcherProps) {
       <DropdownMenuContent
         className={cn(
           "w-56 dark:bg-muted border-0 outline-0",
-          isCollapsed && "left-4 relative"
+          isCollapsed && "relative", left ? "left-4" : "-top-2"
         )}
         align="end"
         forceMount

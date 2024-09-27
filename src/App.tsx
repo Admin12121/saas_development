@@ -25,6 +25,7 @@ import { BuilderPage } from "@/pages/site-management/app/formbuilder/page"
 import DesignerContextProvider from "@/pages/site-management/app/formbuilder/components/context/DesignerContext";
 import SubdominLogin from "@/pages/site-management/app/auth/login"
 import SubdominRegistration from "@/pages/site-management/app/auth/registration"
+import { ThemeWrapper } from "@/pages/site-management/components/theme-wrapper";
 // import Homepage from "@/pages/site-management/home-pages/homepage1/homepage";
 // import Domain from "@/pages/domain/domin";
 
@@ -36,14 +37,13 @@ function App() {
   const siteconfig = () => (
       <Route path="home" element={ <ThemesPage /> } >
         <Route path="formbuilder/:form_type" element={<BuilderPage/>}/>
-        <Route path="login" element={<BuilderPage/>}/>
       </Route>
   )
 
   const authconfig = () => (
       <Route path="auth" >
         <Route index element={<SubdominLogin organization={organization}/>}/>
-        <Route path="registration" element={<SubdominRegistration type="registration"/>} />
+        <Route path="registration" element={<SubdominRegistration organization={organization}/>} />
       </Route>
   )
 
@@ -53,7 +53,7 @@ function App() {
         <DesignerContextProvider>
         <Routes>
           <Route index element={<Home showHome={showHome}/>} />
-          <Route path="register" element={ <AuthenticationPage organization={organization}/>} />
+          <Route path="register" element={ <AuthenticationPage/>} />
           <Route path="login" element={<LoginPage organization={organization}/>} />
           <Route path="login/:username" element={ <TwoFaOtp/>} />
           <Route path="available-domains" element={<Availabledomains/>} />
@@ -75,7 +75,7 @@ function App() {
   );
 
   return (
-    <>
+    <ThemeWrapper defaultTheme="zinc">
       <Toaster
         toastOptions={{
           style: {
@@ -90,7 +90,7 @@ function App() {
         position="top-right"
       />
       {routes}
-    </>
+    </ThemeWrapper>
   );
 }
 

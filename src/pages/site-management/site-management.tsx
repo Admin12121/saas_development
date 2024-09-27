@@ -17,12 +17,12 @@ import {
 import content from "@/assets/content";
 import { toast } from "sonner";
 import Spinner from "@/components/ui/spinner";
-
+import { useState } from "react";
 import {
   FormElementInstance,
   FormElements,
 } from "@/pages/site-management/app/formbuilder/components/FormElements";
-
+import { ThemeCustomizer } from "@/pages/site-management/components/theme-customizer";
 const { registration, login, profile, membership } = content;
 
 interface Form {
@@ -43,6 +43,7 @@ interface FormConfig {
 const SiteManagement = () => {
   const [CreateForm, { isLoading }] = useRegisterFormMutation();
   const { data, isLoading: dataLoading, refetch } = useGetFormQuery({});
+  const [bgtheme, setBgtheme] = useState<any>("");
 
   const forms: FormConfig[] = [
     { url: "login", name: "Login", content: login, formType: "login" },
@@ -63,7 +64,7 @@ const SiteManagement = () => {
 
   const handleCreateForm = async (form: FormConfig) => {
     const actualData = {
-      content: JSON.stringify(form.content),
+      content: form.content,
       form_type: form.formType,
     };
 
@@ -78,10 +79,11 @@ const SiteManagement = () => {
 
   return (
     <div className="h-screen overflow-hidden overflow-y-auto">
-      <span className="flex justify-end">
+      <span className="flex justify-end gap-2">
+        <ThemeCustomizer setBgtheme={setBgtheme} bgtheme={bgtheme} />
         <Dialog>
           <DialogTrigger asChild>
-            <Button>Create Forms</Button>
+            <Button size="sm">Create Forms</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -138,7 +140,7 @@ const SiteManagement = () => {
                 >
                   <div>
                     {(
-                      JSON.parse(formData.content) as FormElementInstance[]
+                      formData.content as FormElementInstance[]
                     ).map((element) => {
                       const FormElement =
                         FormElements[element.type].formComponent;

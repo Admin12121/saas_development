@@ -53,9 +53,6 @@ const Navbar = ({
   return (
     <>
       <motion.div
-        initial={{ y: -100, scale: 0.9 }}
-        animate={{ y: 10, scale: 1 }}
-        transition={{ duration: 1, delay: 0.3, ease: [0.76, 0, 0.24, 1] }}
         className="Nav_wrapper"
         style={{ position: position ? "absolute" : "fixed" }}
       >
@@ -66,7 +63,7 @@ const Navbar = ({
                 <div className="logo">
                   <Link to="/">
                     <span>
-                      <img src="/images/logo.png" className="p-2" alt="logo" />
+                      <img src="/images/logo.png" className="p-1" alt="logo" />
                     </span>
                   </Link>
                 </div>
@@ -79,24 +76,22 @@ const Navbar = ({
             </span>
             <span className="flex gap-2 items-center justify-center">
               <ModeToggle />
-              <Skeleton
+              {login && (<Skeleton
                 className="h-11 w-24 rounded-md"
                 disable={!isLoading || userProfileLoading}
               >
-              {data ? (
-                <UserNav data={data} refetch={refetch}/>
-              ) : (
-                login && (
-                    <Button asChild className="h-11 px-5 rounded-[8px]">
-                      {subdomain ? (
-                        <Link to="/auth">Login</Link>
-                      ) : (
-                        <Link to="/register">Sign Up</Link>
-                      )}
-                    </Button>
-                )
-              )}
-              </Skeleton>
+                {data ? (
+                  <UserNav data={data} refetch={refetch}/>
+                  ) : (
+                  <Button asChild className="h-11 px-5 rounded-[8px]">
+                    {subdomain ? (
+                      <Link to="/auth">Login</Link>
+                    ) : (
+                      <Link to="/register">Sign Up</Link>
+                    )}
+                  </Button>
+                )}
+              </Skeleton>)}
             </span>
           </div>
         </div>

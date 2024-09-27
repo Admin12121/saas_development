@@ -12,13 +12,13 @@ interface SpinnerProps {
 const Spinner = ({
   label,
   size = 'sm',
-  color = 'primary',
+  color = 'default',
   labelColor = 'default',
   classNames,
   ...props
 }: SpinnerProps) => {
   return (
-    <div className={classNames}>
+    <div className={`${classNames} flex items-center justify-center`}>
       <SpinnerNext size={size} color={color} {...props} />
       {label && <span style={{ color: labelColor }}>{label}</span>}
     </div>

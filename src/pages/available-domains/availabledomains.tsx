@@ -34,10 +34,10 @@ const Availabledomains = () => {
       <div className="flex items-center justify-center p-5 pt-28 h-screen w-screen">
         <Loader disable={!isLoading} type="spinner">
           <ErrorMessage message={errorMessage}>
-            <div className="flex flex-wrap gap-5 w-full h-full p-10">
+            <div className="flex flex-wrap gap-5 w-full h-full p-10 overflow-y-auto justify-center">
               {data &&
                 data.results.map((domain: any) => (
-                  <div className="w-96 h-40 dark:bg-zinc-800 rounded-lg flex items-center justify-center">
+                  <div className="w-96 h-40 dark:bg-zinc-800 bg-zinc-200 rounded-lg flex items-center justify-center">
                     <div className="flex flex-col items-center justify-center h-full gap-5">
                       <h1 className="text-2xl font-semibold">
                         {domain.organization_name}
