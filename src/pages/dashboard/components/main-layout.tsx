@@ -7,6 +7,7 @@ import {
   Trash2,
   Globe,
   LayoutDashboard,
+  CalendarCog
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -163,6 +164,16 @@ export function MainLayout({
                   href: "site-management",
                   icon: LayoutDashboard,
                   variant: pathname.endsWith("/site-management")
+                    ? "default"
+                    : "ghost",
+                  auth: ["admin"],
+                },
+                {
+                  title: "Event Management",
+                  label: "20",
+                  href: "event-management",
+                  icon: CalendarCog,
+                  variant: pathname.endsWith("/event-management")
                     ? "default"
                     : "ghost",
                   auth: ["admin"],

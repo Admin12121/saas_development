@@ -5,7 +5,7 @@ const Landing = () => {
     <>
       <div className="min-h-screen w-screen overflow-hidden bg-blue-600">
         <div className="relative  h-80 w-screen overflow-hidden [mask-image:radial-gradient(50%_50%,white,transparent)] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#369eff,transparent_90%)] before:opacity-100  after:absolute after:border-2 after:-left-1/2 after:top-1/2 after:aspect-[1/1.8] after:w-[200%] after:rounded-[50%] after:border-b after:border-[#7876c566] after:bg-zinc-900">
-        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to right, #ffffff2c 1px, transparent 1px), linear-gradient(to bottom, #3a3a3a01 1px, transparent 1px)] bg-[size:70px_80px] "></div>
+        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(#ffffff2c 1px at to right, transparent 1px), linear-gradient(#3a3a3a01 1px at to bottom, transparent 1px)] bg-[size:70px_80px] "></div>
           <Sparkles
             density={400}
             size={1.4}

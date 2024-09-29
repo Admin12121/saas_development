@@ -26,6 +26,7 @@ import DesignerContextProvider from "@/pages/site-management/app/formbuilder/com
 import SubdominLogin from "@/pages/site-management/app/auth/login"
 import SubdominRegistration from "@/pages/site-management/app/auth/registration"
 import { ThemeWrapper } from "@/pages/site-management/components/theme-wrapper";
+import Pagebuilder  from "@/pages/site-management/app/pagebuilder/pagebuilder"
 // import Homepage from "@/pages/site-management/home-pages/homepage1/homepage";
 // import Domain from "@/pages/domain/domin";
 
@@ -37,6 +38,7 @@ function App() {
   const siteconfig = () => (
       <Route path="home" element={ <ThemesPage /> } >
         <Route path="formbuilder/:form_type" element={<BuilderPage/>}/>
+        <Route path="pagebuilder/:page_type" element={<Pagebuilder/>}/>
       </Route>
   )
 

@@ -20,7 +20,7 @@ export default function AuthenticationPage() {
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" >
-            <img src="./theme.jpg" alt="" className="w-full h-full object-cover"/>
+            <img src="/theme.jpg" alt="" className="w-full h-full object-cover"/>
           </div>
           <div className="relative z-20 flex items-center text-lg font-medium">
             <img src="/images/logo.png" className="p-2 w-14 h-14" alt="logo" /> 

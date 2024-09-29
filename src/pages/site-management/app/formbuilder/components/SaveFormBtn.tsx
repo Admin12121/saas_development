@@ -9,8 +9,7 @@ const SaveFormBtn = ({ id }: { id: number }) => {
   const [ update , {isLoading}] = useUpdateFormMutation();
 
   const handleSubmit = async () => {
-    const jsonElements = JSON.stringify(elements);
-    const actualData = {"content": jsonElements}
+    const actualData = {"content": elements}
     const res = await update({id, actualData})
     if(res.data){
       console.log("daved well done")

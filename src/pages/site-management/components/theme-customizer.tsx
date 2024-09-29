@@ -151,7 +151,7 @@ export function ThemeCustomizer({setBgtheme, bgtheme}:any) {
 function Customizer({bgtheme, setBgtheme}:any) {
   const [mounted, setMounted] = React.useState(false)
   const { setTheme: setMode, theme: mode } = useTheme()
-  const [config, setConfig] = useConfig()
+  const [config, setConfig, data] = useConfig()
   const [ postSiteconfig, {isLoading: postloading} ] = usePostSetupMutation()
   const [updateSiteconfig, {isLoading}] = useUpdateSetupMutation();
 
@@ -159,16 +159,28 @@ function Customizer({bgtheme, setBgtheme}:any) {
     setMounted(true)
   }, [])
 
-  const handleSubmition = () =>{
+  const handleSubmition = async () =>{
     const actualData = {
       ...config,
       type: "siteconfig"
     }
-    const res = postSiteconfig({actualData})
-    if(res && (res as any).data){
-      toast.success("theme updated")
+    if (data.id){
+      const id = data?.id
+      try {
+        const res = await updateSiteconfig({ actualData, id }).unwrap()
+        if (res) {
+          toast.success("theme updated")
+        }
+      } catch (error) {
+        toast.error("something went wrong")
+      }
     }else{
-      toast.error("somthing went wrong")
+      const res = await postSiteconfig({actualData})
+      if(res && (res as any).data){
+        toast.success("theme updated")
+      }else{
+        toast.error("somthing went wrong")
+      }
     }
   }
 

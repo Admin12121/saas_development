@@ -14,6 +14,7 @@ import { UserFieldFormElement } from "./fields/component/userField"
 import { PasswordFieldFormElement } from "./fields/component/passwordField"
 import { EmailFieldFormElement } from "./fields/component/EmailField"
 import { SubmitButtonFieldFormElement } from "./fields/component/SubmitButton";
+import { ImageUploaderFormElement } from "./fields/component/ImageUploader"
 
 export type ElementsType =
   | "TextField"
@@ -31,6 +32,7 @@ export type ElementsType =
   | "PasswordField"
   | "EmailField"
   | "SubmitButtonField"
+  | "ImageUploader"
   ;
 
 export type FormElementInstance = {
@@ -89,4 +91,5 @@ export const FormElements: FormElementsType = {
   PasswordField : PasswordFieldFormElement,
   EmailField : EmailFieldFormElement,
   SubmitButtonField: SubmitButtonFieldFormElement,
+  ImageUploader : ImageUploaderFormElement,
 };

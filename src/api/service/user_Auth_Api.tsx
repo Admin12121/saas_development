@@ -53,6 +53,18 @@ export const userAuthapi = createApi({
         }
       }
     }),
+    registersubUser: builder.mutation({
+      query: (user) => {
+        return {
+          url: "api/account/user-register/",
+          method: "POST",
+          body: user,
+          headers: {
+            "Content-type": "application/json",
+          },
+        };
+      },
+    }),
     registerUser: builder.mutation({
       query: (user) => {
         return {
@@ -93,6 +105,18 @@ export const userAuthapi = createApi({
       query: (user) => {
         return {
           url: "api/account/register/verify-otp/",
+          method: "POST",
+          body: user,
+          headers: {
+            "Content-type": "application/json",
+          },
+        };
+      },
+    }),
+    activesubUser: builder.mutation({
+      query: (user) => {
+        return {
+          url: "api/account/user-register/verify-otp/",
           method: "POST",
           body: user,
           headers: {
@@ -318,9 +342,9 @@ export const userAuthapi = createApi({
       }
     }),
     getSiteSetup : builder.query({
-      query:({}) => {
+      query:({type}) => {
         return{
-          url: `api/form/site-management/`,
+          url: `api/form/site-management/${type ? `?type=${type}` : ""}`,
           method: "GET",
           headers: {
             "Content-type": "application/json",
@@ -329,10 +353,10 @@ export const userAuthapi = createApi({
       }
     }),
     updateSetup : builder.mutation({
-      query:({actualData}) => {
+      query:({actualData, id}) => {
         const {access_token} = getToken();
         return {
-          url: `api/form/site-management/`,
+          url: `api/form/site-management/${id}/`,
           method: "PATCH",
           body: actualData,
           headers: {
@@ -360,10 +384,12 @@ export const userAuthapi = createApi({
 export const {
   useDomainVerifierMutation,
   useDomainCheckMutation,
+  useRegistersubUserMutation,
   useRegisterUserMutation,
   useRegisterAdminMutation,
   useLoginUserMutation,
   useActiveUserMutation,
+  useActivesubUserMutation,
   useResendOtpMutation,
   useCheckActiveUserMutation,
   useCheckLoginUserMutation,

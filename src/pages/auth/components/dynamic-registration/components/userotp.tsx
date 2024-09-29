@@ -15,26 +15,23 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   useActivesubUserMutation,
-  useActiveUserMutation,
   useResendOtpMutation,
   useCheckActiveUserMutation,
 } from "@/api/service/user_Auth_Api";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Spinner from "@/components/ui/spinner"
-import { getSubdomain } from "@/lib/subdomain";
+
 
 
 
 const Otp = () => {
-  const { subdomain } = getSubdomain();
   const [nouser, setNouser] = useState(false);
   const [otpTime, setOtpTime] = useState(null);
   const [otpSent, setOtpSent] = useState(true);
   const [otpExpired, setOtpExpired] = useState(false);
   const [Time, setTime] = useState<any>(null);
-  const [activeUser, { isLoading }] = useActiveUserMutation();
-  const [activesubUser, { isLoading : SubisLoading }] = useActivesubUserMutation();
+  const [activeUser, { isLoading }] = useActivesubUserMutation();
   const [resendOtp, { isLoading: isResendLoading }] = useResendOtpMutation();
   const [checkActiveUser, { isLoading: isCheckActiveLoading }] =
     useCheckActiveUserMutation();
@@ -100,9 +97,7 @@ const Otp = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = subdomain
-      ? await activesubUser({ user_name: username, otp: value })
-      : await activeUser({ user_name: username, otp: value });
+      const response = await activeUser({ user_name: username, otp: value });
       if (response.data) {
         toast.success(response.data.message, {
           action: {
@@ -212,9 +207,9 @@ const Otp = () => {
               </span>            
           <Button
             disabled={
-              isLoading || isResendLoading || isCheckActiveLoading || nouser || SubisLoading
+              isLoading || isResendLoading || isCheckActiveLoading || nouser
             }
-            loading={isLoading || isResendLoading || SubisLoading}
+            loading={isLoading || isResendLoading}
             onClick={handleSubmit}
             className="w-full"
           >

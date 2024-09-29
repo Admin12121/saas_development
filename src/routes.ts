@@ -17,6 +17,7 @@ export const protectedRoutes = [
 export const rolebaseRoutes = [
     { path: "/dashboard/domain", roles: ["superadmin"] },
     { path: "/dashboard/users", roles: ["superadmin"] },
+    { path: "/dashboard/site-management", roles: ["admin"] },
     { path: "/home/formbuilder/:form_type", roles: ["admin"] } 
 ];
 

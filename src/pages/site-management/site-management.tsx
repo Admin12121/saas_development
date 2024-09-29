@@ -24,6 +24,7 @@ import {
 } from "@/pages/site-management/app/formbuilder/components/FormElements";
 import { ThemeCustomizer } from "@/pages/site-management/components/theme-customizer";
 const { registration, login, profile, membership } = content;
+import { Label } from "@/components/ui/label";
 
 interface Form {
   id: number;
@@ -121,6 +122,7 @@ const SiteManagement = () => {
           </DialogContent>
         </Dialog>
       </span>
+      {forms && <Label>Forms</Label>}
       <div className="relative grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 p-5">
         {dataLoading ? (
           <Spinner />
@@ -139,24 +141,32 @@ const SiteManagement = () => {
                   data={formData}
                 >
                   <div>
-                    {(
-                      formData.content as FormElementInstance[]
-                    ).map((element) => {
-                      const FormElement =
-                        FormElements[element.type].formComponent;
-                      return (
-                        <FormElement
-                          key={element.id}
-                          elementInstance={element}
-                        />
-                      );
-                    })}
+                    {(formData.content as FormElementInstance[]).map(
+                      (element) => {
+                        const FormElement =
+                          FormElements[element.type].formComponent;
+                        return (
+                          <FormElement
+                            key={element.id}
+                            elementInstance={element}
+                          />
+                        );
+                      }
+                    )}
                   </div>
                 </Safari>
               ) : null;
             })
             .filter(Boolean)
         )}
+      </div>
+      <Label>Pages</Label>
+      <div className="relative grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 p-5">
+        <Safari
+          className="size-full cursor-pointer"
+          page={true}
+          url="Home"
+        ></Safari>
       </div>
     </div>
   );

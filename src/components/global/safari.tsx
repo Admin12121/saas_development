@@ -13,6 +13,7 @@ export interface SafariProps extends SVGProps<SVGSVGElement> {
   src?: string;
   width?: number;
   height?: number;
+  page? :boolean;
   data?: Form;
   children?: React.ReactNode 
 }
@@ -22,6 +23,7 @@ export default function Safari({
   url,
   width = 1203,
   height = 753,
+  page=false,
   children,
   ...props
 }: SafariProps) {
@@ -34,7 +36,7 @@ export default function Safari({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
-      onClick={()=>(navigate(`/home/formbuilder/${url}`))}
+      onClick={() => navigate(page ? `/home/pagebuilder/${url}` : `/home/formbuilder/${url}`)}
     >
       <g clipPath="url(#path0)">
         <path

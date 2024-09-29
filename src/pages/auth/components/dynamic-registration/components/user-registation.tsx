@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 
 import {
-  useRegisterUserMutation,
+  useRegistersubUserMutation,
 } from "@/api/service/user_Auth_Api";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,13 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -61,15 +54,18 @@ const userRegistrationSchema = z.object({
       required_error: "Please select an email to display.",
     })
     .email(),
-  phone: z.string().max(160).min(4),
-  gender: z.string().min(1, "Gender is required"),
+  password: z.string().min(6, "Password must be at least 6 characters."),
+  confirm_password: z.string().min(6, "Confirm Password must be at least 6 characters."),
+}).refine((data) => data.password === data.confirm_password, {
+  message: "Passwords don't match",
+  path: ["confirm_password"],
 });
 
 type ProfileFormValues = z.infer<typeof userRegistrationSchema>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const navigate = useNavigate();
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const [registerUser, { isLoading }] = useRegistersubUserMutation();
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(userRegistrationSchema),
     mode: "onChange",
@@ -78,8 +74,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       first_name: "",
       last_name: "",
       email: "",
-      phone: "",
-      gender: "",
+      password: "",
+      confirm_password: "",
     },
   });
 
@@ -89,9 +85,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       "email" : data.email,
       "first_name" : data.first_name,
       "last_name" : data.last_name,
-      "phone" : data.phone,
-      "gender" : data.gender,
-      "password" : "eghsbgskdgjhskdgm"
+      "password" : data.password,
     }
     const res = await registerUser(actualdata);
     if (res.data) {
@@ -172,12 +166,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           />
           <FormField
             control={form.control}
-            name="phone"
+            name="password"
             render={({ field }) => (
               <FormItem style={{ margin: "0" }}>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Phone" {...field} />
+                  <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,22 +179,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           />
           <FormField
             control={form.control}
-            name="gender"
+            name="confirm_password"
             render={({ field }) => (
               <FormItem style={{ margin: "0" }}>
-                <FormLabel>Gender</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Gender" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="Confirm Password" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -215,7 +200,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </Button>
         </form>
       </Form>
-
     </div>
   );
 }

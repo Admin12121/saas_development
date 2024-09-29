@@ -6,7 +6,6 @@ import { publicRoutes, protectedRoutes, authRoutes, rolebaseRoutes, Default_Logi
 const RouteProvider = ({ children }:{ children: React.ReactNode }) => {
   const { access_token, user_role } = getToken();
   const location = useLocation();
-  console.log(user_role)
   const isProtectedRoute = protectedRoutes.some(route => new RegExp(route).test(location.pathname));
   const isPublicRoute = !isProtectedRoute && publicRoutes.some(route => new RegExp(route).test(location.pathname));
   const isAuthRoute = authRoutes.some(route => new RegExp(route).test(location.pathname));
